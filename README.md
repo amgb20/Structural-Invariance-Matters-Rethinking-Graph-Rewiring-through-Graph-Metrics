@@ -4,6 +4,20 @@ Investigating what structural properties are most desirable to preserve in rewir
 
 ## Description
 
+## Import Datasets
+
+To import the datasets from the TUDataset, please run the first cell only once. The datasets will be saved in the `data` folder.
+
+```python
+from torch_geometric.datasets import TUDataset
+
+dataset_benchmark = {"REDDIT-BINARY", "IMDB-BINARY", "MUTAG", "ENZYMES", "PROTEINS", "COLLAB"}
+# Load the REDDIT-BINARY dataset
+for _ in dataset_benchmark:
+    dataset = TUDataset(root='./data', name=_)
+```
+
+
 ## Version Control Commands
 
 To collaborate effectively and avoid conflicts while working on different parts of the project, you can use the following Git commands:

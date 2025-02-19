@@ -1,16 +1,44 @@
 #Test file to apply GTR Rewiring
 
-from gtr import gtr_rewire
+from rewiring_files import AddPrecomputedGTREdges, PrecomputeGTREdges
+import torch_geometric.transforms as T
 from torch_geometric.datasets import TUDataset
 
 datasets = ["REDDIT-BINARY", "IMDB-BINARY", "MUTAG", "ENZYMES", "PROTEINS", "COLLAB"]
 
-data_dict = {name: TUDataset(root=f'./tmp/'+name, name=name) for name in datasets}
+#data_dict = {name: TUDataset(root=f'./tmp/'+name, name=name) for name in datasets}
 
-gtr_rewired_graphs = {
-    name: [gtr_rewire(data) for data in dataset]
-    for name, dataset in data_dict.items()
-}
+def rewire_gtr(name, num_edges, add_edges):
+    pre_transform = T.Compose([PrecomputeGTREdges(num_edges=num_edges)])
+    transform = T.Compose([AddPrecomputedGTREdges(num_edges=add_edges)])
 
-for name, rewired_graphs in gtr_rewired_graphs.items():
-    print(f"Rewired {len(rewired_graphs)} graphs in {name}")
+    dataset = TUDataset(
+        root="./tmp/",
+        name=name,
+        transform=transform,
+        pre_transform=pre_transform
+    )
+
+    if all([
+    hasattr(data, "precomputed_gtr_edges") and data.precomputed_gtr_edges.shape[1] == (2*num_edges)
+    for data in dataset
+    ]):
+        print("Edges succesfully precomputed!")
+
+    dataset_wo_edges = TUDataset(
+    root="./tmp/",
+    name=name,
+    pre_transform=pre_transform
+    )
+    # Check that 40 edges have been added to each graph in the dataset
+    if all([ 
+        (data.edge_index.shape[1]-data_wo_edges.edge_index.shape[1]) == (2*add_edges)
+        for data, data_wo_edges 
+        in zip(dataset, dataset_wo_edges) 
+    ]):
+        print("Edges succesfully added!")
+
+    return dataset
+
+
+rewire_gtr(name='MUTAG', num_edges=30, add_edges=20)

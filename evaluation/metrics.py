@@ -5,6 +5,19 @@ from networkx.algorithms.community import greedy_modularity_communities
 
 
 """
+Graph Diameter
+
+....
+"""
+def get_diameter(G):
+    if nx.is_connected(G):
+        diameter = nx.diameter(G)
+    else:
+        diameter = max(nx.diameter(G.subgraph(c)) for c in nx.connected_components(G))
+
+    return diameter
+
+"""
 Effective resistance
 
 The effective resistance is measures how easily information flows between pairs of nodes. If rewiring reduces effective resistance, it improves communication efficiency:
@@ -80,3 +93,13 @@ def get_spec_gap(G):
     eigenvalues = eigvalsh(L)
     spectral_gap = eigenvalues[1]
     return spectral_gap
+
+"""
+Average Betweenness Centrality
+
+
+"""
+def get_bet_cent(G):
+    bet_cent = nx.betweenness_centrality(G)
+    avg_bet = sum(bet_cent.values()) / len(bet_cent)
+    return avg_bet

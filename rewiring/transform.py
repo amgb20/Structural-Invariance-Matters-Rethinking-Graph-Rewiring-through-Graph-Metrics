@@ -51,7 +51,7 @@ def get_snapshot_edge_attr(data, snapshot_idx):
     return attr
 
 def one_hot_transform(g):
-    g.y = F.one_hot(g.y, num_classes=6)
+    g.y = F.one_hot(g.y, num_classes=6) # one hot encoding for the labels
     return g
 
 def process_TUDataset(g, dataset):

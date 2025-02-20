@@ -24,11 +24,12 @@ class GraphDatasetLoader:
         
         self.datasets = {}  # Stores PyG dataset objects
         self.networkx_graphs = {}  # Stores NetworkX graph lists
+        self.first_graphs = {}  # Stores first graph per dataset
 
         # Load each dataset
         for name in dataset_names:
             corrected_name = self.get_closest_dataset_name(name)
-            self.datasets[corrected_name] = self.load_dataset(corrected_name)
+            self.datasets[corrected_name], self.first_graphs[corrected_name] = self.load_dataset(corrected_name)
             self.networkx_graphs[corrected_name] = self.convert_to_networkx(self.datasets[corrected_name])
 
     def get_closest_dataset_name(self, name):
@@ -59,8 +60,10 @@ class GraphDatasetLoader:
             print(f"✅ Dataset {name} already exists. Loading from disk...")
         else:
             print(f"📂 Downloading dataset: {name}...")
+            
+        dataset = TUDataset(root='./data', name=name)
         
-        return TUDataset(root='./data', name=name)
+        return dataset, dataset[0]
 
     def convert_to_networkx(self, dataset):
         """

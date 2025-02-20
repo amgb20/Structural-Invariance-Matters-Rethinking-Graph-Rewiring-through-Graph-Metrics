@@ -1,2 +1,7 @@
 *.png
 data/
+*.csv
+results/
+*/__pycache__/
+*.pyc
+*.pyo

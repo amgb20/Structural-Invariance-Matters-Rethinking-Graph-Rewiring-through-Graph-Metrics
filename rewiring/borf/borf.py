@@ -242,7 +242,6 @@ def brf2(
                 G.remove_edge(u, v)
     return from_networkx(G).edge_index, torch.tensor(edge_type)
 
-
 def borf3(
     data,
     loops=10,
@@ -274,7 +273,11 @@ def borf3(
 
     # Preprocess data
     G, N, edge_type = _preprocess_data(data)
-
+    
+    # print("G", G) # it should be a <networkx.classes.digraph.DiGraph object>
+    # print("N= ", N) # =20
+    # print("edge type", edge_type) # array of 0s
+    
     # Rewiring begins
     for _ in range(loops):
         # Compute ORC

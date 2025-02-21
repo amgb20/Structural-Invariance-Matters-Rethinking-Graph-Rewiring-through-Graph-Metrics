@@ -117,9 +117,21 @@ class GraphMetrics:
         if self.G_name != "MUTAG":
             metrics["Effective Resistance"] = self.get_eff_res()
         return metrics
+    
+    def get_all_metrics_v1(self):
+        metrics = {
+            "Diameter": self.get_diameter(),
+            "Effective Resistance": self.get_eff_res(),
+            "Modularity": self.get_modularity(),
+            "Assortativity": self.get_assort(),
+            "Clustering Coefficient": self.get_clust_coeff(),
+            "Spectral Gap": self.get_spec_gap(),
+            "Average Betweenness Centrality": self.get_bet_cent()
+        }
+        return metrics
 
     def get_metrics_dataframe(self):
-        metrics = self.get_all_metrics()
+        metrics = self.get_all_metrics_v1()
         df = pd.DataFrame(metrics.items(), columns=["Metric", "Value"])
         df["Dataset"] = self.G_name
         print(df)

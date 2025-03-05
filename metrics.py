@@ -99,7 +99,7 @@ def get_metrics(dataset):
     print("Forman Curvature:", get_Forman_curve(G))
     print("Average Betweenness Centrality:", get_bet_cent(G))
 
-
+#Function to get all average metrics
 def get_avg_metrics(dataset):
     metrics = {
         "Diameter" : [],

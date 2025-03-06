@@ -18,6 +18,7 @@ class GraphMetrics:
     where $R_{ij}$ is the resistance between nodes $i$ and $j$ in the graph.
 
     """
+    # TODO: might be worth checking if this implementation is correct compared: https://github.com/Fedzbar/laser-release/blob/main/laser/rewiring/dynamic/effective_resistance.py
     def get_eff_res(self):
         nodes = list(self.G.nodes())
         u = nodes[0]
@@ -104,6 +105,8 @@ class GraphMetrics:
             return nx.diameter(self.G)
         else:
             return max(nx.diameter(self.G.subgraph(c)) for c in nx.connected_components(self.G))
+        
+    # -----------------------------------------------------
 
     def get_all_metrics(self):
         metrics = {

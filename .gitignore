@@ -1,5 +1,6 @@
 *.png
 data/
+datasets-test/
 *.csv
 results/
 */__pycache__/

@@ -76,7 +76,7 @@ def rewire_digl(base, alpha, k=None, eps=None):
     else:
         raise ValueError
 
-        # create PyG Data object
+    # create PyG Data object
     edges_i = []
     edges_j = []
     edge_attr = []

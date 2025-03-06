@@ -1,9 +1,12 @@
 import networkx as nx
 import torch
 from torch_geometric.datasets import TUDataset
+# from utils.tu_dataset import TUDataset
 from torch_geometric.utils import to_networkx
 import difflib
 import os
+from torch_geometric.datasets.zinc import ZINC
+
 
 class GraphDatasetLoader:
     """
@@ -12,9 +15,9 @@ class GraphDatasetLoader:
     """
 
     # Define available datasets (MACRO)
-    DATASET_BENCHMARK = {"REDDIT-BINARY", "IMDB-BINARY", "MUTAG", "ENZYMES", "PROTEINS", "COLLAB"}
+    DATASET_BENCHMARK = {"REDDIT-BINARY", "IMDB-BINARY", "MUTAG", "ENZYMES", "PROTEINS", "COLLAB", "ZINC"}
 
-    def __init__(self, dataset_names):
+    def __init__(self, dataset_names, edge_attr=False):
         """
         Initializes the loader with multiple datasets.
         :param dataset_names: List of dataset names (str)
@@ -25,6 +28,7 @@ class GraphDatasetLoader:
         self.datasets = {}  # Stores PyG dataset objects
         self.networkx_graphs = {}  # Stores NetworkX graph lists
         self.first_graphs = {}  # Stores first graph per dataset
+        self.edge_attr = edge_attr
 
         # Load each dataset
         for name in dataset_names:
@@ -60,8 +64,11 @@ class GraphDatasetLoader:
             print(f"✅ Dataset {name} already exists. Loading from disk...")
         else:
             print(f"📂 Downloading dataset: {name}...")
-            
-        dataset = TUDataset(root='./data', name=name)
+        
+        if name == "ZINC":
+            dataset = ZINC(root="datasets-test/ZINC/", subset=True, split="test")
+        else:
+            dataset = TUDataset(root='./data', name=name, use_edge_attr= self.edge_attr)
         
         return dataset, dataset[0]
 

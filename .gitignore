@@ -2,3 +2,5 @@
 data/
 tmp/
 *.pt
+*.pyc
+/rewiring_files/__pycache__/*

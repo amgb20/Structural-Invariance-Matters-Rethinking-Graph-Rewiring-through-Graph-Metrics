@@ -48,20 +48,8 @@ class LaserGlobalTransform:
         g_nx = to_networkx(g, to_undirected=True)
 
         edge_index, edge_weights = self._create_rewirings(g_nx)
-        
-        num_edges = g.edge_index.shape[1]
-        g.edge_attr = torch.ones((num_edges, 1))
 
-        if hasattr(g, "edge_attr") and g.edge_attr is not None:
-            to_add = edge_weights.shape[0] - g.edge_attr.shape[0]
-            
-            if to_add > 0:
-                virtual_attrs = torch.full((to_add, g.edge_attr.shape[1]), 0.1)  # Ensure correct shape
-                print(f"Fixing shape mismatch: {g.edge_attr.shape} vs. {virtual_attrs.shape}")
-                
-                g.edge_attr = torch.cat((g.edge_attr, virtual_attrs), dim=0)  # Concatenate along correct axis
-        else:
-            g.edge_attr = torch.full((edge_weights.shape[0], 1), 0.1)  # Initialize if missing
+        g.edge_attr = torch.full((edge_weights.shape[0], 1), 0.1)  # Initialize if missing
 
 
         g.edge_index, g.edge_weights = edge_index, edge_weights

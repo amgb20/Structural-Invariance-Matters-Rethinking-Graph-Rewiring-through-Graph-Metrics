@@ -3,6 +3,7 @@
 from numba import jit, prange
 import numpy as np
 import torch
+import networkx as nx
 from torch_geometric.utils import (
     to_networkx,
     from_networkx,
@@ -287,4 +288,4 @@ class SDRFTransform:
         else:
             raise ValueError("SDRF requires 1 or 2 snapshots!")
 
-        return g
+        return g        

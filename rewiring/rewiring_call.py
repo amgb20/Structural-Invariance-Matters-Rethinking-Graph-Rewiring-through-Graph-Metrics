@@ -58,7 +58,7 @@ class rewiring_call:
         rewired_G_sdrf = nx.Graph()
         rewired_G_sdrf.add_edges_from(rewired_edge_sdrf_index)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
         
         return rewired_G_sdrf
 

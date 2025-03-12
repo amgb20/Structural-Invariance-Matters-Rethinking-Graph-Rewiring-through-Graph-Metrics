@@ -58,7 +58,7 @@ class rewiring_call:
         rewired_G_sdrf = nx.Graph()
         rewired_G_sdrf.add_edges_from(rewired_edge_sdrf_index)
 
-        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
+        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
         
         return rewired_G_sdrf
 
@@ -112,7 +112,7 @@ class rewiring_call:
         print(self.G) ## --> REDDIT-BINARY: Data(edge_index=[2, 480], y=[1], num_nodes=218)
         
         # Apply PPR rewiring
-        print(f"🔄 Applying PPR on {self.ataset_name}...")
+        print(f"🔄 Applying PPR on {self.dataset_name}...")
         rewired_graph_ppr = rewire_digl(self.G, alpha=0.1, k=128) # returns data.edge_index
             
         # Extract rewired edges
@@ -128,7 +128,7 @@ class rewiring_call:
     
     def laser_rewiring(self):
         # add the dataset_name to the self.G object
-        self.G.dataset_name = self.dataset_name
+        # self.G.dataset_name = self.dataset_name
         
         # Apply LASER rewiring
         print(f"🔄 Applying LASER on {self.dataset_name}...")
@@ -144,5 +144,7 @@ class rewiring_call:
         rewired_G_laser.add_edges_from(rewired_edge_laser_index)
 
         print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_laser.number_of_edges()} edges.")
+        
+        return rewired_G_laser
 
 

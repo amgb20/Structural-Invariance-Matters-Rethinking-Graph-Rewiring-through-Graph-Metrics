@@ -33,6 +33,22 @@ class GraphMetrics:
         L = laplacian(nx.to_numpy_array(self.G), normed=False)
         L_pinv = pinv(L)
         return L_pinv[u, u] + L_pinv[v, v] - 2 * L_pinv[u, v]
+    
+    """
+    Forman curvature
+    
+    The Forman curvature measures how well the graph approximates a sphere. If rewiring changes the curvature, it may indicate a change in the global structure of the graph.
+    """
+    #Function to get curvature
+    def get_Forman_curve(self):
+        curvature = {}
+        for u, v in self.G.edges():
+            k_u = self.G.degree[u]
+            k_v = self.G.degree[v]
+            curvature[(u, v)] = 4 - (k_u + k_v)
+
+            avg_curvature = np.mean(list(curvature.values()))
+            return avg_curvature
 
     """
     Modularity
@@ -123,6 +139,7 @@ class GraphMetrics:
         metrics["Clustering Coefficient"] = self.get_clust_coeff()
         metrics["Spectral Gap"] = self.get_spec_gap()
         metrics["Average Betweenness Centrality"] = self.get_bet_cent()
+        metrics["Forman Curvature"] = self.get_Forman_curve()
 
         if self.G_name != "MUTAG":
             metrics["Effective Resistance"] = self.get_eff_res()

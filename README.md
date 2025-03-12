@@ -45,6 +45,11 @@ Open the `Metric_Rewiring_Playground.ipynb` notebook and run the interactive wid
 
 ![Graph Rewiring Techniques](images/interactive%20widget.png)
 
+## Automate Google Sheet Setup API Google Developer Console
+
+Please follow the following [tutorial](https://www.geeksforgeeks.org/how-to-automate-google-sheets-with-python/) to at **least** generate your API key. The rest should be automated and ready to function in `analysis/metric_analysis.ipynb`.
+
+✅ You are not ready to run and analyze the results of the rewiring techniques.
 
 ## Version Control Commands
 

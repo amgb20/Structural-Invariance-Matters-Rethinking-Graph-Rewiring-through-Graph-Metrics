@@ -43,7 +43,7 @@ This notebook (`Metric_Rewiring_Playground.ipynb`) is a playground for you to ex
 **Instructions:**
 Open the `Metric_Rewiring_Playground.ipynb` notebook and run the interactive widget by choosing your rewiring technique, dataset, and type of metrics.
 
-![Graph Rewiring Techniques](/images/interactive_widget.png)
+![Graph Rewiring Techniques](images/interactive_widget.png)
 
 ## Automate Google Sheet Setup API Google Developer Console
 

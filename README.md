@@ -2,6 +2,10 @@
 
 Investigating what structural properties are most desirable to preserve in rewiring and positional encodings for GNNs and graph transformers
 
+
+## TODO List
+- [ ] Generate the other metrics' Forman Curvature
+
 ## Description
 
 Graph rewiring techniques are used to modify the structure of graphs used to train models such as GNNs and graph transformers. However, rewiring inherently alters the structural properties of the graph, possibly distorting important structural-based information. In this paper, we offer insight in to what structural metrics are critical to remain invariant across rewiring techniques to support the future creation of effective graph rewiring methods. Our approach compares the magnitude of change in various structural metrics across six different rewiring techniques to the classification accuracy of a GNN on the rewired graphs. 

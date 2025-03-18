@@ -28,7 +28,9 @@ class GraphDistanceMetrics:
 
         return intersection / union if union != 0 else 1.0
 
-    def get_laplac_spec_dist(G1, G2, p=2):
+    def get_laplac_spec_dist(self, p=2):
+        G1 = self.G
+        G2 = self.G_rewired
         L1 = nx.laplacian_matrix(G1).toarray()
         L2 = nx.laplacian_matrix(G2).toarray()
 
@@ -45,7 +47,9 @@ class GraphDistanceMetrics:
         return np.linalg.norm(eigvals1 - eigvals2, ord=p)
 
     #Adjacency Spectrum Distance
-    def get_adj_spec_dist(G1, G2, p=2):
+    def get_adj_spec_dist(self, p=2):
+        G1 = self.G
+        G2 = self.G_rewired
         A1 = nx.adjacency_matrix(G1).toarray()
         A2 = nx.adjacency_matrix(G2).toarray()
 
@@ -60,7 +64,9 @@ class GraphDistanceMetrics:
         return np.linalg.norm(eigvals1 - eigvals2, ord=p)
 
     #Spectral Norm Adjacency Difference
-    def get_spec_norm_adj_diff(G1, G2):
+    def get_spec_norm_adj_diff(self):
+        G1 = self.G
+        G2 = self.G_rewired
         A1 = nx.adjacency_matrix(G1).toarray()
         A2 = nx.adjacency_matrix(G2).toarray()
 
@@ -72,14 +78,18 @@ class GraphDistanceMetrics:
         return np.linalg.norm(A1 - A2, ord=2)  # Spectral norm (largest singular value)
 
     #Degree Distribution Difference using Wassertein Distance (????) Will look up
-    def deg_dist_diff(G1, G2):
+    def deg_dist_diff(self):
+        G1 = self.G
+        G2 = self.G_rewired
         degrees_G1 = np.array([d for _, d in G1.degree()])
         degrees_G2 = np.array([d for _, d in G2.degree()])
 
         return wasserstein_distance(degrees_G1, degrees_G2)
 
     #Graphlet Kernel Distance
-    def get_graph_kern_dist(G1, G2):
+    def get_graph_kern_dist(self):
+        G1 = self.G
+        G2 = self.G_rewired
         G1_grakel = Graph(list(G1.edges()))
         G2_grakel = Graph(list(G2.edges()))
 
@@ -89,7 +99,9 @@ class GraphDistanceMetrics:
         return 1 - similarity[0, 1]  # Distance = 1 - similarity
 
     #Shortest Path Length Distribution Difference
-    def get_short_path_diff(G1, G2):
+    def get_short_path_diff(self):
+        G1 = self.G
+        G2 = self.G_rewired
         def short_path_dist(G):
             lengths = dict(nx.all_pairs_shortest_path_length(G))
             distribution = []
@@ -109,24 +121,24 @@ class GraphDistanceMetrics:
         #     print("Not the same dataset")
         # else:
         metrics = {
-        "Graph Edit Distance" : [],
+        #"Graph Edit Distance" : [],
         "Jaccard Similarity" : [],
         "Laplacian Spectrum Distance" : [],
-        "Adjacency Spectrum Distance" : [],
+        #"Adjacency Spectrum Distance" : [],
         "Spectral Norm of Adjacency Difference" : [],
         "Degree Distribution Distance" : [],
         "Graphlet Kernel Distance" : [],
         "Shortest Path Length Distribution Difference" : []
         }
 
-        metrics["Graph Edit Distance"](self.get_graph_edit_distance())
-        metrics["Jaccard Similarity"](self.get_jaccard_sim())
-        metrics["Laplacian Spectrum Distance"](self.get_laplac_spec_dist())
-        metrics["Adjacency Spectrum Distance"](self.get_adj_spec_dist(self))
-        metrics["Spectral Norm of Adjacency Difference"](self.get_spec_norm_adj_diff(self))
-        metrics["Degree Distribution Distance"](self.deg_dist_diff(self))
-        metrics["Graphlet Kernel Distance"](self.get_graph_kern_dist(self))
-        metrics["Shortest Path Length Distribution Difference"](self.get_short_path_diff(self))
+        #metrics["Graph Edit Distance"](self.get_graph_edit_distance())
+        metrics["Jaccard Similarity"]=(self.get_jaccard_sim())
+        metrics["Laplacian Spectrum Distance"]=(self.get_laplac_spec_dist())
+        #metrics["Adjacency Spectrum Distance"]=(self.get_adj_spec_dist(self))
+        metrics["Spectral Norm of Adjacency Difference"]=(self.get_spec_norm_adj_diff())
+        metrics["Degree Distribution Distance"]=(self.deg_dist_diff())
+        metrics["Graphlet Kernel Distance"]=(self.get_graph_kern_dist())
+        metrics["Shortest Path Length Distribution Difference"]=(self.get_short_path_diff())
         
         df = pd.DataFrame(metrics.items(), columns=["Metric", "Value"])
         df["Dataset"] = self.G_name

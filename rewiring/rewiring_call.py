@@ -143,7 +143,18 @@ class rewiring_call:
         rewired_G_laser = nx.Graph()
         rewired_G_laser.add_edges_from(rewired_edge_laser_index)
 
+        #Debug laser NAN for assortativity
+        degrees = [d for _, d in rewired_G_laser.degree()]
+        avg_degree = np.mean(degrees)
+        n = len(rewired_G_laser.nodes)
+        complete_edges = (n*(n-1))//2
+
         print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_laser.number_of_edges()} edges.")
+        print(f"Average degree of this graph is {avg_degree}")
+        print("Checking if graph is fully connected:", nx.is_connected(rewired_G_laser))
+        print("Variance for degrees: ", np.var(degrees))
+        print("Actually fully connected:", (rewired_G_laser.number_of_edges()==complete_edges))
+
         
         return rewired_G_laser
 

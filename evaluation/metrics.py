@@ -9,6 +9,8 @@ from grakel import Graph
 from scipy.sparse.csgraph import laplacian
 from scipy.linalg import pinv, eigvalsh
 from scipy.stats import wasserstein_distance
+from GraphRicciCurvature.FormanRicci import FormanRicci
+from GraphRicciCurvature.OllivierRicci import OllivierRicci
 
 class GraphMetrics:
     def __init__(self, G: nx.Graph, G_name: str):
@@ -34,6 +36,11 @@ class GraphMetrics:
         L_pinv = pinv(L)
         return L_pinv[u, u] + L_pinv[v, v] - 2 * L_pinv[u, v]
     
+    def get_eff_res_v2(self):
+        eff_res = nx.distance_measures.effective_graph_resistance(self.G)
+        return eff_res
+        
+    
     """
     Forman curvature
     
@@ -49,6 +56,48 @@ class GraphMetrics:
 
             avg_curvature = np.mean(list(curvature.values()))
             return avg_curvature
+        
+    """
+    A class to compute Forman-Ricci curvature for all nodes and edges in G
+    """
+    def get_Forman_curve_v2(self):
+        forman = FormanRicci(self.G) 
+        forman.compute_ricci_curvature() # Compute Forman-ricci curvature for all nodes and edges in G. Node curvature is defined as the average of all it’s adjacency edge
+        
+        forman_curvatures = [
+        forman.G[u][v].get("formanCurvature", None) for u, v in forman.G.edges()
+        ]
+        
+        # Remove None values in case some edges do not have curvature computed
+        forman_curvatures = [c for c in forman_curvatures if c is not None]
+        
+        # Compute the average Forman Curvature
+        avg_forman_curvature = sum(forman_curvatures) / len(forman_curvatures) if forman_curvatures else None
+        
+        return avg_forman_curvature, forman.G
+    
+    """
+    Get Olliver Ricci curvature
+    """
+    def get_Olliver_Ricci_cuve(self):
+        # how much mass remains at the original node when computing optimal transport for curvature estimation
+        # When α = 0 → All mass is distributed to the neighboring nodes.
+        # When α = 1 → No mass is moved, meaning the curvature is not meaningful (stays at its original node).
+        # When α = 0.5 → The mass is evenly split: half remains at the node, and half is distributed to neighbors.
+        orc = OllivierRicci(self.G, alpha=0) # set it to 0 as BORF method is doing... why? i don't know
+        orc.compute_ricci_curvature()
+        
+        orc_curvatures = [
+        orc.G[u][v].get("ricciCurvature", None) for u, v in orc.G.edges()
+        ]
+        
+        # remove None values in case some edges do not have curvature computed
+        orc_curvatures = [c for c in orc_curvatures if c is not None]
+        
+        # compute the average Forman Curvature
+        avg_orc_curvature = sum(orc_curvatures) / len(orc_curvatures) if orc_curvatures else None
+                
+        return avg_orc_curvature, orc.G
 
     """
     Modularity
@@ -144,6 +193,26 @@ class GraphMetrics:
         if self.G_name != "MUTAG":
             metrics["Effective Resistance"] = self.get_eff_res()
 
+        return metrics
+    
+    def get_forman(self):
+        metrics = {}
+        metrics["Forman Curvature"] = self.get_Forman_curve()
+        avg_forman_curvature, forman_G = self.get_Forman_curve_v2()
+        metrics["Forman Curvature V2"] = avg_forman_curvature
+        return metrics, forman_G
+    
+    def get_orc(self):
+        metrics = {}
+        
+        avg_orc_curvature, orc_G = self.get_Olliver_Ricci_cuve()
+        metrics["Ollivier Ricci Curvature"] = avg_orc_curvature
+        return metrics, orc_G
+    
+    def get_eff_res_compa(self):
+        metrics = {}
+        metrics["Effective Resistance"] = self.get_eff_res()
+        metrics["Effective Resistance_v2"] = self.get_eff_res_v2()
         return metrics
 
     def get_metrics_dataframe(self):

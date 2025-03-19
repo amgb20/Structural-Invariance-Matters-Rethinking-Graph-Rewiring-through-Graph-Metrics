@@ -4,7 +4,10 @@ Investigating what structural properties are most desirable to preserve in rewir
 
 
 ## TODO List
-- [ ] Generate the other metrics' Forman Curvature
+- [x] Generate the other metrics' Forman Curvature v2
+- [ ] Generate Olivier Ricci Curvature
+- [ ] Generate the original graph curvature and rewired graph curvature between sdrf, laser, borf, digl, etc
+
 
 ## Description
 

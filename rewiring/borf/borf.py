@@ -13,7 +13,7 @@ from torch_geometric.utils import (
     from_networkx,
 )
 from torch_geometric.datasets import TUDataset
-from GraphRicciCurvature.OllivierRicci import OllivierRicci
+from GraphRicciCurvature_perso.OllivierRicci import OllivierRicci
 from tabulate import tabulate
 
 class CurvaturePlainGraph():

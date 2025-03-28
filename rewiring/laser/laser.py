@@ -43,14 +43,11 @@ class LaserGlobalTransform:
         """
         g = process_TUDataset(g, self.dataset)
         
-        print(g)
-
         g_nx = to_networkx(g, to_undirected=True)
 
         edge_index, edge_weights = self._create_rewirings(g_nx)
 
         g.edge_attr = torch.full((edge_weights.shape[0], 1), 0.1)  # Initialize if missing
-
 
         g.edge_index, g.edge_weights = edge_index, edge_weights
         

@@ -46,7 +46,7 @@ class rewiring_call:
     def sdrf_rewiring(self):
         
         # Apply SDRF rewiring
-        print(f"🔄 Applying SDRF on {self.dataset_name}...")
+        # print(f"🔄 Applying SDRF on {self.dataset_name}...")
         sdrf = SDRFTransform(num_iterations=50, dataset=self.dataset_name)
         
         rewired_graph_sdrf = sdrf.transform(self.G)
@@ -58,14 +58,14 @@ class rewiring_call:
         rewired_G_sdrf = nx.Graph()
         rewired_G_sdrf.add_edges_from(rewired_edge_sdrf_index)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_sdrf.number_of_edges()} edges.")
         
         return rewired_G_sdrf
 
     def fosr_rewiring(self):
         
         # Apply FOSR rewiring
-        print(f"🔄 Applying FOSR on {self.dataset_name}...")
+        # print(f"🔄 Applying FOSR on {self.dataset_name}...")
         fosr = FOSRTransform(num_snapshots=1, num_iterations=50, initial_power_iters=5, dataset=self.dataset_name)
         rewired_graph_fosr = fosr.transform(self.G)
 
@@ -76,7 +76,7 @@ class rewiring_call:
         rewired_G_fosr = nx.Graph()
         rewired_G_fosr.add_edges_from(rewired_edge_fosr_index)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_fosr.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_fosr.number_of_edges()} edges.")
         
         return rewired_G_fosr
 
@@ -89,7 +89,7 @@ class rewiring_call:
         rewired_G_des = original_G.copy()
         
         # Apply Double Edge Swap rewiring
-        print(f"🔄 Applying Double Edge Swap on {self.dataset_name}...")
+        # print(f"🔄 Applying Double Edge Swap on {self.dataset_name}...")
         
         # checker for the number of edges
         if rewired_G_des.number_of_edges() < 100:
@@ -99,7 +99,7 @@ class rewiring_call:
             nswap = 100
         rewired_G_des = nx.double_edge_swap(rewired_G_des, nswap=nswap, max_tries=500)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_des.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_des.number_of_edges()} edges.")
         
         return rewired_G_des
 
@@ -108,11 +108,11 @@ class rewiring_call:
         # Ensure node features exist
         if not hasattr(self.G, 'x') or self.G.x is None:
             self.G.x = torch.ones((self.G.num_nodes, 1))
-        print(f"📊 First graph from {self.dataset_name}: {self.G}")
-        print(self.G) ## --> REDDIT-BINARY: Data(edge_index=[2, 480], y=[1], num_nodes=218)
+        # print(f"📊 First graph from {self.dataset_name}: {self.G}")
+        # print(self.G) ## --> REDDIT-BINARY: Data(edge_index=[2, 480], y=[1], num_nodes=218)
         
         # Apply PPR rewiring
-        print(f"🔄 Applying PPR on {self.dataset_name}...")
+        # print(f"🔄 Applying PPR on {self.dataset_name}...")
         rewired_graph_ppr = rewire_digl(self.G, alpha=0.1, k=128) # returns data.edge_index
             
         # Extract rewired edges
@@ -122,7 +122,7 @@ class rewiring_call:
         rewired_G_ppr = nx.Graph()
         rewired_G_ppr.add_edges_from(rewired_edge_ppr_index)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_ppr.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_ppr.number_of_edges()} edges.")
         
         return rewired_G_ppr
     
@@ -131,7 +131,7 @@ class rewiring_call:
         # self.G.dataset_name = self.dataset_name
         
         # Apply LASER rewiring
-        print(f"🔄 Applying LASER on {self.dataset_name}...")
+        # print(f"🔄 Applying LASER on {self.dataset_name}...")
         laser = LaserGlobalTransform(dataset=self.dataset_name)
         
         rewired_graph_laser = laser.transform(self.G)
@@ -143,7 +143,7 @@ class rewiring_call:
         rewired_G_laser = nx.Graph()
         rewired_G_laser.add_edges_from(rewired_edge_laser_index)
 
-        print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_laser.number_of_edges()} edges.")
+        # print(f"✅ Rewiring complete! {self.dataset_name} now has {rewired_G_laser.number_of_edges()} edges.")
         
         return rewired_G_laser
 

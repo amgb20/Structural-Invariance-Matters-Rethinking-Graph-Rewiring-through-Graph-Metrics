@@ -26,7 +26,7 @@ This notebook (`Metric_Rewiring_Playground.ipynb`) is a playground for you to ex
 5. **DES** (double edge swap) from *[NetworkX](https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.swap.double_edge_swap.html)*
 6. **BORF** (curvature based) from *[Revisiting Over-smoothing and Over-squashing Using Ollivier-Ricci Curvature](https://arxiv.org/abs/2211.15779)* by *Khang Nguyen, Hieu Nong, Vinh Nguyen, Nhat Ho, Stanley Osher, Tan Nguyen*
 7. **DiffWire** (differential based) from *[DiffWire: Inductive Graph Rewiring via the Lovász Bound](https://arxiv.org/abs/2206.07369)* by *Adrian Arnaiz-Rodriguez, Ahmed Begga, Francisco Escolano, Nuria Oliver*
-8. **GTR** (effective resistance based) from *[Understanding Oversquashing in GNNs through the Lens of Effective Resistance](https://arxiv.org/abs/2302.06835) by *Mitchell Black, Zhengchao Wan, Amir Nayyeri, Yusu Wang*
+8. **GTR** (effective resistance based) from *[Understanding Oversquashing in GNNs through the Lens of Effective Resistance](https://arxiv.org/abs/2302.06835)* by *Mitchell Black, Zhengchao Wan, Amir Nayyeri, Yusu Wang*
 
 **Metrics Implemented:**
 1. Effective resistance

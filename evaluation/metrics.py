@@ -84,7 +84,7 @@ class GraphMetrics:
         # When α = 0 → All mass is distributed to the neighboring nodes.
         # When α = 1 → No mass is moved, meaning the curvature is not meaningful (stays at its original node).
         # When α = 0.5 → The mass is evenly split: half remains at the node, and half is distributed to neighbors.
-        orc = OllivierRicci(self.G, alpha=0) # set it to 0 as BORF method is doing... why? i don't know
+        orc = OllivierRicci(self.G, alpha=0.5) # set it to 0 as BORF method is doing... why? i don't know
         orc.compute_ricci_curvature()
         
         orc_curvatures = [
@@ -188,7 +188,8 @@ class GraphMetrics:
         metrics["Clustering Coefficient"] = self.get_clust_coeff()
         metrics["Spectral Gap"] = self.get_spec_gap()
         metrics["Average Betweenness Centrality"] = self.get_bet_cent()
-        metrics["Forman Curvature"] = self.get_Forman_curve()
+        avg_forman_curvature, forman_G = self.get_Forman_curve_v2()
+        metrics["Forman Curvature"] = avg_forman_curvature
 
         if self.G_name != "MUTAG":
             metrics["Effective Resistance"] = self.get_eff_res()

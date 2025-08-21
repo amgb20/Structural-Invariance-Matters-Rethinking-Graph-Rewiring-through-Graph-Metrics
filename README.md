@@ -1,4 +1,4 @@
-# L65-Mini-Project: Role of structural invariance in GNNs and graph transformers
+# Structural Invariance Matters: Rethinking Graph Rewiring through Graph Metrics
 
 Investigating what structural properties are most desirable to preserve in rewiring and positional encodings for GNNs and graph transformers
 
